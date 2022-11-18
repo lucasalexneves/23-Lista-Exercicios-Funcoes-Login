@@ -28,10 +28,8 @@ let indexCadastro = 0
 
 function Cadastro() {
 
-    nomes[indexCadastro] = prompt("Insira um nome de usuário:")
-    senhas[indexCadastro] = prompt("Insira uma senha: ")
-    console.log(nomes)
-    console.log(senhas)
+    nomes.push(prompt("Insira um nome de usuário:"))
+    senhas.push(prompt("Insira uma senha: "))
     indexCadastro++
 }
 
@@ -42,36 +40,35 @@ function DesejaFazer(){
 }
 
 function login(nome, senha){
-    for (let contador = 0; contador < nomes.length; contador++) {
-        if(nome == nomes[contador] && senha == senhas[index]){
-            console.log("Login realizado com Sucesso!")
+   if(nomes.includes(nome)){
+        let index = nomes.indexOf(nome)
+        if(senha == senhas[index]){
             return true
         } else {
-            console.log("Nome ou senha incorretos!")
             return false
         }
+    } else {
+        return false
     }
 }
 
-function ExcluirCadastro(nomeExcluir){
-
-    for (let contador = 0; contador < nomes.length; contador++) {
-        if(nomeExcluir == nomes[contador]){
-            nomes[contador] = 0
-            senhas[contador]
-        }        
-    }
-    for (let contador2 = 0; contador2 < nomes.length; contador2++) {
-        if(nomes[contador2] != 0){
-            nomeSup[indexSup] = nomes[contador2]
-            senhaSup[indexSup] = senhas[contador2]
+function ExcluirCadastro(nome){
+    let nomesSup = []
+    let senhasSup = []
+    let indexSup = 0
+    let index = nomes.indexOf(nome)
+    nomes[index] = 0
+    nomes.forEach(x => {
+        if(x != 0) {
+            let indexX = nomes.indexOf(x)
+            nomesSup[indexSup] = x
+            senhasSup[indexSup] = senhas[indexX]
             indexSup++
         }
-        
-    }
+    })
 
     nomes = nomeSup
-    senhas = senhaSup
+    senhas = senhasSup
 }
 
 let encerrar = true
@@ -85,7 +82,11 @@ do{
         case "2":
             let nome = prompt("Insira o seu login")
             let senha = prompt("Insira sua senha")
-            login(nome, senha)
+            if(login(nome, senha)) {
+                console.log("Login realizado com sucesso!")
+            }else {
+                console.log("Nome ou senha incorretos!")
+            }
             break
         case "3":
             let nomeExcluir = prompt("Insira o login que deseja excluir!")
